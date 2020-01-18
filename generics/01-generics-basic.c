@@ -23,7 +23,6 @@ void print_long_double(long double x)
 	printf("%.28Le", x);
 }
 
-
 /* There are some typing error, aborting the program. */
 #define STRINGIFY_HELPER(X) #X
 #define STRINGIFY(X) STRINGIFY_HELPER(X)
@@ -60,7 +59,7 @@ int main()
 	puts("");
 
 	int foo = -100;
-	fpuprintf(foo);
+	fpuprintf(foo); /* abort here */
 
 	/* unreachable */
 	return EXIT_SUCCESS;
