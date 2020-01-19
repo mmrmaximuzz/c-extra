@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "helpers.h"
 
 void print_float(float x)
 {
@@ -24,18 +25,10 @@ void print_long_double(long double x)
 }
 
 /* There are some typing error, aborting the program. */
-#define STRINGIFY_HELPER(X) #X
-#define STRINGIFY(X) STRINGIFY_HELPER(X)
-void panic(const char *msg, const char *func, const char *lineno)
-{
-	fprintf(stderr, "%s in %s[%s]\n", msg, func, lineno);
-	exit(EXIT_FAILURE);
-}
-
 #define panic_on_bad_expr(BADEXPR)					\
-	panic("expression (" STRINGIFY(BADEXPR) ") is non-float",	\
-	      __func__,							\
-	      STRINGIFY(__LINE__))
+	panic_abort("expression (" STRINGIFY(BADEXPR) ") is non-float",	\
+		    __func__,						\
+		    STRINGIFY(__LINE__))
 
 #define fpuprintf(X)					\
 	_Generic((X),					\
