@@ -27,6 +27,7 @@ _Noreturn void range(volatile size_t *ptr, size_t maxval, jmp_buf gen_jmp)
 
 int main(int argc, char *argv[argc])
 {
+	/* cmd line args check */
 	if (argc != 3) {
 		printf("usage: %s START STOP\n", argv[0]);
 		exit(EXIT_FAILURE);
@@ -38,15 +39,25 @@ int main(int argc, char *argv[argc])
 
 	jmp_buf generator_jmp;
 	switch (setjmp(generator_jmp)) {
+
+	/* You get here when you called setjmp for the first time.
+	 * It is impossible by the standard to get 0 value twice.
+	 */
 	case SET_GENERATOR:
 		puts("generator started");
 		printf("counter = %zu\n", counter);
 		range(&counter, maxval, generator_jmp);
 		break;
+
+	/* There are maybe some extra elements in the generator
+	 * so let's call `range` one more time.
+	 */
 	case HAS_ELEMENTS:
 		printf("counter = %zu\n", counter);
 		range(&counter, maxval, generator_jmp);
 		break;
+
+	/* The generator is exhausted. Just continue execution. */
 	case STOP_ITERATION:
 		puts("generator is exhausted");
 		break;
