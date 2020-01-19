@@ -1,13 +1,19 @@
+/* Simple example with pseudo-python range generator */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <setjmp.h>
 
 enum GeneratorState {
-	SET_GENERATOR = 0,
+	SET_GENERATOR = 0, /* reserved value for the first setjmp call */
 	HAS_ELEMENTS,
 	STOP_ITERATION,
 };
 
+/* Main range generator body.
+ * Volatile is used to prevent memory access optimizations (long jumps
+ * are opaque for the compiler). _Noreturn is used to conform C11 standard.
+ */
 _Noreturn void range(volatile size_t *ptr, size_t maxval, jmp_buf gen_jmp)
 {
 
