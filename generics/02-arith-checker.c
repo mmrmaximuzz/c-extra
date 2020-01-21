@@ -13,7 +13,7 @@
 
 /* C numeric types enumeration */
 enum GType {
-	NONARITHM,
+	NOT_IN_THE_LIST,
 	U8,
 	U16,
 	U32,
@@ -31,7 +31,7 @@ enum GType {
 #define ARRAY_INIT_TYPESTRING(TYPE) [(TYPE)] = STRINGIFY(TYPE)
 
 static const char *type_strings[] = {
-	ARRAY_INIT_TYPESTRING(NONARITHM),
+	ARRAY_INIT_TYPESTRING(NOT_IN_THE_LIST),
 	ARRAY_INIT_TYPESTRING(U8),
 	ARRAY_INIT_TYPESTRING(U16),
 	ARRAY_INIT_TYPESTRING(U32),
@@ -51,6 +51,10 @@ const char *get_type_string(enum GType type)
 	return type_strings[type];
 }
 
+/* The [u]int_{N}_t types are just typedefs to plain C numeric types.
+ * It creates lots of oddities on different platforms, but we are sticked
+ * to the exact width types just to make sure they are different.
+ */
 #define GET_TYPE(X)				\
 	_Generic((X),				\
 		 uint8_t: U8,			\
@@ -64,7 +68,7 @@ const char *get_type_string(enum GType type)
 		 float: F32,			\
 		 double: F64,			\
 		 long double: FLONG,		\
-		 default: NONARITHM)
+		 default: NOT_IN_THE_LIST)
 
 #define PRINT_TYPE(X)							\
 	do {								\
@@ -150,12 +154,8 @@ int main()
 	unsigned uint_obj = 1000000;
 	PRINT_TYPE(int_obj + 1);
 	PRINT_TYPE(int_obj + 1u);
-	PRINT_TYPE(int_obj + 1l);
-	PRINT_TYPE(int_obj + 1ul);
-	PRINT_TYPE(uint_obj + 1); /* hahaha, the logic has changed (on Linux)! */
+	PRINT_TYPE(uint_obj + 1); /* hahaha, the logic has changed */
 	PRINT_TYPE(uint_obj + 1u);
-	PRINT_TYPE(uint_obj + 1l); /* previous logic come back! */
-	PRINT_TYPE(uint_obj + 1ul);
 	puts("");
 
 	/* floats are expanded to the widest type */
