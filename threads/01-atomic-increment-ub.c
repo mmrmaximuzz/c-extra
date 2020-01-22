@@ -9,8 +9,7 @@
  * but not all C libraries do. glibc supports C11 threads starting with 2.28.
  * If your platform uses older glibc you have no way to build the executable.
  * The best option is to try linking the executable against the musl C library.
- * To do that you can download and build musl library and compile with musl-gcc
- * (you should downgrade the -std compiler option to 'c11' in that case).
+ * To do that you can download and build musl library and compile with musl-gcc.
  */
 #ifndef __STDC_NO_THREADS__
 #include <threads.h>
