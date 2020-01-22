@@ -1,15 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* There may be problems. GCC and Clang support almost all C11 features
+ * but not all C libraries do. glibc supports C11 threads starting with 2.28.
+ * If your platform uses older glibc you have no way to build the executable.
+ * The best option is to try linking the executable against the musl C library.
+ */
 #ifndef __STDC_NO_THREADS__
 #include <threads.h>
 #else
-#error "Your build environment does not support C11 threads"
+#error "your C library does not support native C11 threads"
 #endif
 
 int main()
 {
-	puts("If you can see this message, then your C environment "
-	     "supports C11 threads");
+	puts("Your C environment supports C11 threads. Congratulations!");
 	return EXIT_SUCCESS;
 }
