@@ -3,9 +3,10 @@ SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 .DELETE_ON_ERROR:
 
-CSTANDARD := -std=c18
-CWARNINGS := -Wall -Wextra -Wpedantic -Werror
-OPTIMIZING := -O2
+OPTIMIZING ?= -O2
+CSTANDARD ?= -std=c18
+CWARNINGS ?= -Wall -Wextra -Wpedantic -Werror
+
 
 sources := $(shell find . -name "*.c")
 binaries := $(patsubst %.c,%,$(sources))
