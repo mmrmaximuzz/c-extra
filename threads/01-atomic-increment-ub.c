@@ -20,7 +20,12 @@
 #define MAX_ITERATIONS 50000
 
 /* The bug is to use raw volatile objects that don't have any
- * happened-before semanthics.
+ * happened-before semanthics. We addded `volatile` keyword here to force
+ * the compiler to _really_ update the variable on each iteration.
+ * Leads to code like that:
+ * - mov    (%rdi),%rax
+ * - add    $0x1,%rax
+ * - mov    %rax,(%rdi)
  */
 int buggy_counter_updater(void *arg)
 {
