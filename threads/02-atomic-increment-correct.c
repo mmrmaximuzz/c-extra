@@ -19,13 +19,16 @@
 
 #define MAX_ITERATIONS 50000
 
-/* Use atomics and have no problems */
+/* Use atomics and have no problems.
+ * Leads to the code like that:
+ * - lock addq $0x1,(%rdi)
+ */
 int correct_counter_updater(void *arg)
 {
 	_Atomic(size_t) *counter = arg;
 	for (size_t i = 0; i < MAX_ITERATIONS; ++i)
 		/* Note that we use here plain ++ operator without any problems.
-		 * The _Atomic declaration make all this work for us. */
+		 * The _Atomic declaration make all the work for us. */
 		++(*counter);
 
 	return EXIT_SUCCESS;
