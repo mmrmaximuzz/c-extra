@@ -5,12 +5,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-/* There may be problems. GCC and Clang support almost all C11 features
- * but not all C libraries do. glibc supports C11 threads starting with 2.28.
- * If your platform uses older glibc you have no way to build the executable.
- * The best option is to try linking the executable against the musl C library.
- * To do that you can download and build musl library and compile with musl-gcc.
- */
 #ifndef __STDC_NO_THREADS__
 #include <threads.h>
 #else
@@ -38,8 +32,6 @@ int buggy_counter_updater(void *arg)
 
 int main()
 {
-	puts("Your C environment supports C11 threads. Congratulations!");
-
 	size_t counter = 0;
 	thrd_t thread1 = { 0 };
 	thrd_t thread2 = { 0 };
