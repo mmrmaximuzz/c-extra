@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef __STDC_NO_THREADS
+#ifndef __STDC_NO_THREADS__
 #include <threads.h>
 #else
 #error "your environment does not support C11 threads"
